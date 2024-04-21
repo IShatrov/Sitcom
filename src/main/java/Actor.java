@@ -1,4 +1,4 @@
-enum Actor {
+public enum Actor {
     CHANDLER("Chandler"),
     JOEY("Joey"),
     MONICA("Monica"),
