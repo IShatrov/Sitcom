@@ -5,15 +5,20 @@ public class SitcomActorThread extends Thread {
     final String name;
     final Semaphore sem;
     final Deque<String> script;
+    final int toralPhrases;
 
-   public SitcomActorThread(String name, Semaphore sem, Deque<String> script) {
+    int saidPhrases;
+
+   public SitcomActorThread(String name, Semaphore sem, Deque<String> script, int toralPhrases) {
        this.name = name;
        this.sem = sem;
        this.script = script;
+       this.toralPhrases = toralPhrases;
+       saidPhrases = 0;
    }
 
    public void run() {
-       while (true) {
+       while (saidPhrases < toralPhrases) {
            try {
                sem.acquire();
 
@@ -27,6 +32,7 @@ public class SitcomActorThread extends Thread {
 
    private synchronized void say() {
        synchronized (script) {
+           saidPhrases++;
            System.out.println(name + ": " + script.removeFirst());
 
            sem.drainPermits();
